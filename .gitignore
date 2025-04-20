@@ -1,0 +1,54 @@
+# 依赖目录
+node_modules/
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 运行时数据
+*.pid
+*.seed
+*.pid.lock
+
+# 目录用于IDE和编辑器
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 测试相关
+coverage/
+.nyc_output/
+
+# 构建输出
+dist/
+build/
+out/
+
+# macOS系统文件
+.DS_Store
+
+# Windows系统文件
+Thumbs.db
+
+# 调试文件
+debug/
+
+# 包管理器文件
+package-lock.json
+yarn.lock
+
+# 临时文件
+tmp/
+temp/
