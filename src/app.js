@@ -12,11 +12,6 @@ process.on('unhandledRejection', (err) => {
 
 const app = express();
 
-// 在所有中间件前添加
-// app.use((req, res, next) => {
-//     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-//     next();
-// });
 
 // 中间件
 app.use(cors());
@@ -25,6 +20,7 @@ app.use(morgan('dev'));
 
 // 路由
 app.use('/api/user', require('./routes/userRoutes'));
+app.use('/api/diary', require('./routes/diaryRoutes'));
 
 // 错误处理
 app.use(errHandler.errHandler);

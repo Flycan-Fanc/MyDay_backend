@@ -1,5 +1,5 @@
 /**
- * 用户控制
+ * 用户接口
  * @author: flycan-fanc
  */
 

@@ -44,12 +44,41 @@ class Diary {
      * @param userId
      * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}
      */
-    static async getDiaryByUserId(userId){
+    static async getDiaryListByUserId(userId){
         const [diaries] = await pool.execute(
             'SELECT diaryId, userId, diartTitle, diaryContent, diaryDate  FROM diary WHERE userId = ?',
             [userId]
         )
         return diaries
+    }
+
+    /**
+     * 修改日记
+     * @param diaryId
+     * @param diaryTitle
+     * @param diaryContent
+     * @param diaryDate
+     * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}
+     */
+    static async updateDiary({diaryId, diaryTitle, diaryContent, diaryDate}){
+        const [diary] = await pool.execute(
+            'UPDATE diary SET diaryTitle = ?, diaryContent = ?, diaryDate = ? WHERE diaryId = ?',
+            [diaryTitle, diaryContent, diaryDate, diaryId]
+        )
+        return diary
+    }
+
+    /**
+     * 删除日记
+     * @param diaryId
+     * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}
+     */
+    static async deleteDiary(diaryId){
+        const [diary] = await pool.execute(
+            'DELETE FROM diary WHERE diaryId = ?',
+            [diaryId]
+        )
+        return diary
     }
 }
 
