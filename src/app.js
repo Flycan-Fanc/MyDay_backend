@@ -21,6 +21,7 @@ app.use(morgan('dev'));
 // 路由
 app.use('/api/user', require('./routes/userRoutes'));
 app.use('/api/diary', require('./routes/diaryRoutes'));
+app.use('/api/tag', require('./routes/tagRoutes'));
 
 // 错误处理
 app.use(errHandler.errHandler);

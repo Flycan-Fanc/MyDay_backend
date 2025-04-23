@@ -31,7 +31,7 @@ exports.createDiary = async (req, res, next) => {
  */
 exports.getDiary = async (req, res, next) => {
     try {
-        const dairy = await diaryService.getDiaryById(req.params.id);
+        const dairy = await diaryService.getDiaryById(req.params.diaryId);
         res.status(200).json(dairy);
     } catch(err) {
         next(err)

@@ -4,7 +4,6 @@
  */
 
 const pool = require('../config/db');
-const bcrypt = require('bcrypt');
 const {nanoid} = require('nanoid');
 require('dotenv').config();
 
@@ -32,11 +31,11 @@ class Diary {
      * @returns {Promise<*>}
      */
     static async getDiaryById(diaryId){
-        const [diaries] = await pool.execute(
+        const [diary] = await pool.execute(
             'SELECT * FROM diary WHERE diaryId = ?',
             [diaryId]
         )
-        return diaries[0]
+        return diary[0]
     }
 
     /**
