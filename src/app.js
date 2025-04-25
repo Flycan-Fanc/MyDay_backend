@@ -23,6 +23,7 @@ app.use('/api/user', require('./routes/userRoutes'));
 app.use('/api/diary', require('./routes/diaryRoutes'));
 app.use('/api/plan', require('./routes/planRoutes'));
 app.use('/api/tag', require('./routes/tagRoutes'));
+app.use('/api/ins', require('./routes/insRoutes'));
 
 // 错误处理
 app.use(errHandler.errHandler);

@@ -3,8 +3,8 @@
  * @type {{}}
  */
 
-const Tag = require('../models/tag');
-const User = require('../models/user');
+const Tag = require('../models/Tag');
+const User = require('../models/User');
 
 /**
  * 创建标签

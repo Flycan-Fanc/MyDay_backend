@@ -3,8 +3,8 @@
  * @type {{}}
  */
 
-const Diary = require('../models/diary');
-const User = require('../models/user');
+const Diary = require('../models/Diary');
+const User = require('../models/User');
 
 /**
  * 创建日记

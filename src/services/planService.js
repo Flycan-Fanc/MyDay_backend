@@ -1,12 +1,12 @@
 /**
- * 标签业务逻辑
+ * 计划业务逻辑
  * @type {{}}
  */
 
-const Plan = require('../models/plan');
-const PlanTag = require('../models/planTag');
-const Tag = require('../models/tag');
-const User = require('../models/user');
+const Plan = require('../models/Plan');
+const PlanTag = require('../models/PlanTag');
+const Tag = require('../models/Tag');
+const User = require('../models/User');
 
 /**
  * 创建计划
@@ -56,7 +56,7 @@ exports.getPlanById = getPlanById;
 /**
  * 根据用户id获取计划列表
  * @param userId
- * @returns {Promise<*[]>}
+ * @returns {Promise<Awaited<unknown>[]>}
  */
 exports.getPlanListByUserId = async (userId) => {
     const existingUser = await User.getUserById(userId);
@@ -71,15 +71,13 @@ exports.getPlanListByUserId = async (userId) => {
     let planRaws =  await Plan.getPlanListByUserId(userId)
 
     // 调用获取单个plan的api，获取完整plan数组
-    let plans = await Promise.all(planRaws.map(p => getPlanById(p.planId)))
-
-    return plans;
+    return await Promise.all(planRaws.map(p => getPlanById(p.planId)))
 }
 
 /**
  * 更新计划
  * @param planData
- * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[],ResultSetHeader]|*>}
+ * @returns {Promise<*>}
  */
 exports.updatePlan = async (planData) => {
     const existingPlan = await Plan.getPlanById(planData.planId);
@@ -104,7 +102,7 @@ exports.updatePlan = async (planData) => {
 /**
  * 删除计划
  * @param planId
- * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[],ResultSetHeader]|*>}
+ * @returns {Promise<*>}
  */
 exports.deletePlan = async (planId) => {
     const existingPlan = await Plan.getPlanById(planId);

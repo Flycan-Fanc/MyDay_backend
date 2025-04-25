@@ -30,7 +30,7 @@ exports.createPlan = async (req, res, next) => {
  */
 exports.getPlan = async (req, res, next) => {
     try {
-        const plan = await planService.getPlanById(req.params.PlanId);
+        const plan = await planService.getPlanById(req.params.planId);
         res.status(200).json(plan);
     } catch(err) {
         next(err)
