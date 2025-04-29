@@ -24,6 +24,7 @@ app.use('/api/diary', require('./routes/diaryRoutes'));
 app.use('/api/plan', require('./routes/planRoutes'));
 app.use('/api/tag', require('./routes/tagRoutes'));
 app.use('/api/ins', require('./routes/insRoutes'));
+app.use('/api/picture', require('./routes/pictureRoutes'));
 
 // 错误处理
 app.use(errHandler.errHandler);
