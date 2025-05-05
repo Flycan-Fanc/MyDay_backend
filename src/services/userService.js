@@ -61,7 +61,7 @@ exports.login = async (userAccount, password) => {
  * @param userData
  * @returns {Promise<*>}
  */
-exports.updateUser = async (userId, userData) => {
+exports.updateUser = async (userData) => {
     // 检查用户是否存在
     const user = await User.getUserById(userData.userId);
     if (!user) throw new Error('用户不存在');
@@ -73,7 +73,7 @@ exports.updateUser = async (userId, userData) => {
     const isMatch = await bcrypt.compare(userData.password, user.password);
     if (!isMatch) throw new Error('密码错误');
 
-    return await User.updateUser(userId, userData.userAccount, userData.email, userData.userName, userData.avatarId, userData.userProfile);
+    return await User.updateUser(userData.userId, userData.userAccount, userData.email, userData.userName, userData.avatarId, userData.userProfile);
 }
 
 /**

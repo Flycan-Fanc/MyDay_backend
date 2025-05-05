@@ -25,6 +25,6 @@ router.get('/userInfo', protect, getUserInfo);
 router.get('/avatar', protect, getUserAvatar);
 router.post('/userInfo', protect, updateUserInfo);
 router.post('/password', protect, updatePassword);
-router.delete('/delete', protect, deleteUser);
+router.delete('/:userId', protect, deleteUser);
 
 module.exports = router;

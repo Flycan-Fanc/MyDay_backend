@@ -50,7 +50,7 @@ exports.login = async (req, res, next) => {
  */
 exports.getUserInfo = async (req, res, next) => {
     try {
-        const user = await User.getUserById(req.user.userId);
+        const user = await User.getUserById(req.params.userId);
         res.json(user);
     } catch (err) {
         next(err);
@@ -71,7 +71,7 @@ exports.getUserAvatar = async (req, res) => {
  */
 exports.updateUserInfo = async (req, res, next) => {
     try {
-        const user = await userService.updateUser(req.user.userId, req.body);
+        const user = await userService.updateUser(req.body);
         res.json(user);
     } catch(err) {
         next(err)
@@ -87,7 +87,7 @@ exports.updateUserInfo = async (req, res, next) => {
  */
 exports.updatePassword = async (req, res, next) => {
     try {
-        const user = await userService.updatePassword(req.user.userId, ...req.body);
+        const user = await userService.updatePassword(...req.body);
         res.json(user);
     } catch(err) {
         next(err)
@@ -103,7 +103,7 @@ exports.updatePassword = async (req, res, next) => {
  */
 exports.deleteUser = async (req, res, next) => {
     try {
-        const user = await userService.deleteUser(req.user.userId);
+        const user = await userService.deleteUser(req.params.userId);
         res.json(user);
     } catch (err) {
         next(err)
