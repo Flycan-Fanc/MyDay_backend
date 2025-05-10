@@ -25,6 +25,7 @@ app.use('/api/plan', require('./routes/planRoutes'));
 app.use('/api/tag', require('./routes/tagRoutes'));
 app.use('/api/ins', require('./routes/insRoutes'));
 app.use('/api/picture', require('./routes/pictureRoutes'));
+app.use('/api/syncMeta', require('./routes/syncMetaRoutes'));
 
 // 错误处理
 app.use(errHandler.errHandler);

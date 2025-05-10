@@ -10,7 +10,7 @@ require('dotenv').config();
 class Tag {
     /**
      * 增加标签
-     * @param userId
+     * @param {userId, tagName, color}
      * @param tagName
      * @param color
      * @returns {Promise<{color, tagId: string, tagName, userId}>}

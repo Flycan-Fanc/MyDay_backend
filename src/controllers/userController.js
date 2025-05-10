@@ -8,6 +8,22 @@ const User = require('../models/user');
 const { generateToken } = require('../utils/auth');
 
 /**
+ * 用于验证token成功时返回用户信息
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<void>}
+ */
+exports.verifyToken = async (req, res, next) => {
+    try {
+        res.status(201).json({ user: req.user }); // 返回用户信息
+    } catch (err) {
+        next(err);
+    }
+
+}
+
+/**
  * 用户注册
  * @param req
  * @param res

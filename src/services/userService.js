@@ -57,7 +57,6 @@ exports.login = async (userAccount, password) => {
 
 /**
  * 更新用户信息（不包括密码）
- * @param userId
  * @param userData
  * @returns {Promise<*>}
  */
