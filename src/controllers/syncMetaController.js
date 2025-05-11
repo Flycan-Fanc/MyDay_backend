@@ -14,7 +14,7 @@ const syncMetaService = require('../services/syncMetaService');
  */
 exports.addSyncMeta = async (req, res, next) => {
     try {
-        const syncMeta = await syncMetaService.addSyncMeta(req.body)
+        const syncMeta = await syncMetaService.addSyncMeta(req.params.userId)
         res.status(201).json(syncMeta);
     } catch(err) {
         next(err)
@@ -46,7 +46,7 @@ exports.getSyncMeta = async (req, res, next) => {
  */
 exports.updateSyncMeta = async (req, res, next) => {
     try {
-        const syncMeta = await syncMetaService.updateSyncMeta(req.body)
+        const syncMeta = await syncMetaService.updateSyncMeta(req.params.userId)
         res.status(200).json(syncMeta);
     } catch(err) {
         next(err)

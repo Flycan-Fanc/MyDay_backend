@@ -14,9 +14,9 @@ const {
     deleteSyncMeta,
 } = require('../controllers/syncMetaController');
 
-router.post('/add', protect, addSyncMeta);
+router.post('/add/:userId', protect, addSyncMeta);
 router.get('/:userId', protect, getSyncMeta);
-router.post('/update', protect, updateSyncMeta);
+router.post('/update/:userId', protect, updateSyncMeta);
 router.delete('/:userId', protect, deleteSyncMeta);
 
 module.exports = router
