@@ -45,7 +45,7 @@ class Diary {
      */
     static async getDiaryListByUserId(userId){
         const [diaries] = await pool.execute(
-            'SELECT diaryId, userId, diartTitle, diaryContent, diaryDate  FROM diary WHERE userId = ?',
+            'SELECT diaryId, userId, diaryTitle, diaryContent, diaryDate  FROM diary WHERE userId = ?',
             [userId]
         )
         return diaries

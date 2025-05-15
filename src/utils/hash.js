@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+const createHash = require('crypto').createHash;
 
 /**
  * 生成数据哈希值
