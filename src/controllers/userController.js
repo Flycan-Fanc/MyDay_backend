@@ -6,6 +6,7 @@
 const userService = require('../services/userService');
 const User = require('../models/user');
 const { generateToken } = require('../utils/auth');
+const { AppError } = require('../utils/errors');
 
 /**
  * 用于验证token成功时返回用户信息
@@ -34,6 +35,7 @@ exports.register = async (req, res, next) => {
     try {
         const user = await userService.register(req.body);
         const token = generateToken(user.userId);
+        console.log('userId: ', user.userId);
         res.status(201).json({ user, token });
     } catch (err) {
         next(err);
@@ -50,6 +52,10 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const { userAccount, password } = req.body;
+        if (!userAccount || !password) {
+            throw new AppError('账号和密码必填', 400); // 参数校验
+        }
+
         const result = await userService.login(userAccount, password);
         res.status(201).json(result);
     } catch (err) {
@@ -103,7 +109,7 @@ exports.updateUserInfo = async (req, res, next) => {
  */
 exports.updatePassword = async (req, res, next) => {
     try {
-        const user = await userService.updatePassword(...req.body);
+        const user = await userService.updatePassword(req.body);
         res.json(user);
     } catch(err) {
         next(err)

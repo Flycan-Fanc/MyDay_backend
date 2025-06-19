@@ -6,6 +6,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/auth');
+const { NotFoundError, AuthError } = require('../utils/errors');
 
 /**
  * 用户注册
@@ -37,14 +38,14 @@ exports.register = async (userData) => {
 exports.login = async (userAccount, password) => {
     // 检查用户是否存在
     const user = await User.getUserByUserAccount(userAccount);
-    if (!user) throw new Error('用户不存在');
+    if (!user) throw new NotFoundError('用户不存在');
 
     const isDelete = await User.isDeleteByUserAccount(userAccount)
-    if(isDelete === 1) throw new Error('用户已注销');
+    if(isDelete === 1) throw new AuthError('用户已注销');
 
     // 验证密码
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error('密码错误');
+    if (!isMatch) throw new AuthError('密码错误');
 
     // 生成 Token
     const token = generateToken(user.userId);
@@ -62,6 +63,7 @@ exports.login = async (userAccount, password) => {
  */
 exports.updateUser = async (userData) => {
     // 检查用户是否存在
+    console.log('userData',userData)
     const user = await User.getUserById(userData.userId);
     if (!user) throw new Error('用户不存在');
 
@@ -69,8 +71,8 @@ exports.updateUser = async (userData) => {
     if(isDelete === 1) throw new Error('用户已注销');
 
     // 验证密码
-    const isMatch = await bcrypt.compare(userData.password, user.password);
-    if (!isMatch) throw new Error('密码错误');
+    // const isMatch = await bcrypt.compare(userData.password, user.password);
+    // if (!isMatch) throw new Error('密码错误');
 
     return await User.updateUser(userData.userId, userData.userAccount, userData.email, userData.userName, userData.avatarId, userData.userProfile);
 }
@@ -82,7 +84,7 @@ exports.updateUser = async (userData) => {
  * @param newPassword
  * @returns {Promise<*>}
  */
-exports.updatePassword = async (userId, oldPassword, newPassword) => {
+exports.updatePassword = async ({userId, oldPassword, newPassword}) => {
     // 检查用户是否存在
     const user = await User.getUserById(userId);
     if (!user) throw new Error('用户不存在');

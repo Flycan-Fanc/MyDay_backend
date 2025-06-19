@@ -101,7 +101,10 @@ class User {
      * @param userProfile
      * @returns {Promise<*>}
      */
-    static async updateUser(userId, userAccount, email, userName, avatarId, userProfile){
+    static async updateUser(userId, userAccount, email, userName, avatarId=null, userProfile){
+        if(avatarId === ''){
+            avatarId = null;
+        }
         const [result] = await pool.execute(
             'UPDATE user SET userAccount = ?, email = ?, userName = ?, avatarId = ?, userProfile = ? WHERE userId = ?',
             [userAccount, email, userName, avatarId, userProfile, userId]
@@ -116,7 +119,8 @@ class User {
      * @returns {Promise<*>}
      */
     static async updateUserPassword(userId, password){
-        const encodedPassword = await bcrypt.hash(password, process.env.SALT);
+        const salt = await bcrypt.genSalt(parseInt(process.env.SALT) || 10);
+        const encodedPassword = await bcrypt.hash(password, salt);
         const [result] = await pool.execute(
             'UPDATE user SET password = ? WHERE userId = ?',
             [encodedPassword, userId]
