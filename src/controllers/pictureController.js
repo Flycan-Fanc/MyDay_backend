@@ -62,6 +62,9 @@ exports.getUserPictureList = async (req, res) => {
         // 不返回图片数据本身，只返回元数据
         const pictureList = pictures.map(pic => ({
             pictureId: pic.pictureId,
+            userId: pic.userId,
+            diaryId: pic.diaryId,
+            insId: pic.insId,
             pictureName: pic.pictureName,
             isAvatar: pic.isAvatar,
             isCover: pic.isCover,

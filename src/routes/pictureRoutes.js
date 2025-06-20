@@ -6,7 +6,7 @@ const uploadMiddleware = require('../utils/upload');
 const { protect } = require('../middlewares/auth');
 
 // 上传图片
-router.post('/', protect, uploadMiddleware.array('file'),PictureController.uploadPicture);
+router.post('/upload', protect, uploadMiddleware.array('file'),PictureController.uploadPicture);
 
 // 获取图片
 router.get('/:pictureId', protect, PictureController.getPicture);
