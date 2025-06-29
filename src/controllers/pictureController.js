@@ -6,7 +6,7 @@ const PictureService = require('../services/pictureService');
  */
 exports.uploadPicture = async (req, res) => {
     try {
-        const { userId, diaryId, insId, isAvatar, isCover, fileScale } = req.body;
+        const { userId, diaryId = null, insId = null, isAvatar = 0, isCover = 0, fileScale } = req.body;
         const files = req.files || [];
 
         if (!files.length) {
@@ -22,13 +22,25 @@ exports.uploadPicture = async (req, res) => {
                 pictureData: file.buffer, // 使用buffer存储图片数据
                 isAvatar: isAvatar || false,
                 isCover: isCover || false,
-                fileScale: fileScale || 1.0
+                fileScale: fileScale || 1.0,
             });
+        }));
+
+        // 添加图片url
+        const picturesWithUrl = results.map(result => ({
+            pictureId: result.pictureId,
+            userId: result.userId,
+            diaryId: result.diaryId,
+            insId: result.insId,
+            pictureName: result.pictureName,
+            isAvatar: result.isAvatar,
+            isCover: result.isCover,
+            url: `${req.protocol}://${req.get('host')}/api/picture/${result.pictureId}`
         }));
 
         res.status(201).json({
             message: '图片上传成功',
-            data: results
+            data: picturesWithUrl,
         });
     } catch (error) {
         res.status(500).json({ error: error.message });

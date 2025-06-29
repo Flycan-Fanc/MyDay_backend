@@ -49,6 +49,7 @@ exports.login = async (userAccount, password) => {
 
     // 生成 Token
     const token = generateToken(user.userId);
+    console.log('avatarId', user.avatarId)
     return { user: {
                 userId: user.userId, userAccount:user.userAccount, email: user.email, userName: user.userName,
                 avatarId: user.avatarId, userProfile: user.userProfile, userRole: user.userRole , isVip: user.isVip,

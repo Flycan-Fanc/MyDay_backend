@@ -13,7 +13,7 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
-        return res.status(401).json({ message: 'Not authorized' });
+        return res.status(403).json({ message: 'Not authorized' });
     }
 
     try {
@@ -21,6 +21,18 @@ exports.protect = async (req, res, next) => {
         req.user = await User.getUserById(decoded.userId);
         next();
     } catch (err) {
-        res.status(401).json({ message: 'Invalid token' });
+        res.status(403).json({ message: 'Invalid token' });
     }
 };
+
+exports.protectPicture = async (req, res, next) => {
+    const token = req.query.token; // 从URL获取token
+    if(!token) res.status(403).json({ message: 'Not authorized' });
+    try {
+        const decoded = verifyToken(token);
+        req.user = await User.getUserById(decoded.userId);
+        next();
+    } catch (err) {
+        res.status(403).json({ message: 'Invalid token' });
+    }
+}

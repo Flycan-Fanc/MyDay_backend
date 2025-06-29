@@ -21,11 +21,18 @@ class Picture {
      * @returns {Promise<{insId, pictureId: string, fileScale, diaryId, pictureData, pictureName, isAvatar, userId, isCover}>}
      */
     static async createPicture({userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale}){
+        console.log({userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale})
         const pictureId = nanoid();
-        const [picture] = await pool.execute(
-            'INSERT INTO picture (pictureId, userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [pictureId, userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale]
-        )
+        try{
+            const [picture] = await pool.execute(
+                'INSERT INTO picture (pictureId, userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [pictureId, userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale]
+            )
+        } catch(err){
+            console.log(err)
+        }
+
+        console.log(333)
         return {pictureId, userId, diaryId, insId, pictureName, pictureData, isAvatar, isCover, fileScale}
     }
 
