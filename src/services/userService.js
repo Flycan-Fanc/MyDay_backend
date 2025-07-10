@@ -91,7 +91,7 @@ exports.updatePassword = async ({userId, oldPassword, newPassword}) => {
     if (!user) throw new Error('用户不存在');
 
     const isDelete = await User.isDeleteById(userId)
-    if(isDelete === 1) throw new Error('用户已注销');
+    if(isDelete === 1) throw new Error('用户已注销'); 
 
     // 验证密码
     const isMatch = await bcrypt.compare(oldPassword, user.password);

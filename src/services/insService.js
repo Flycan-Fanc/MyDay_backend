@@ -7,6 +7,7 @@ const Inspiration = require('../models/Inspiration');
 const InsTag = require('../models/InsTag');
 const Tag = require('../models/Tag');
 const User = require('../models/User');
+const Plan = require("../models/Plan");
 
 /**
  * 创建灵感
@@ -22,12 +23,24 @@ exports.createIns = async (insData) => {
     const isDelete = await User.isDeleteById(insData.userId);
     if(isDelete === 1) throw new Error('用户已注销');
 
-    let result = await Inspiration.createIns(insData);
+    //let result = await Inspiration.createIns(insData);
 
+    let result = {};
+    let existingIns = await Inspiration.getInsById(insData.insId);
+    if(existingIns) {
+        console.log('灵感已存在,更新灵感')
+        result = await Inspiration.updateIns(insData);
+    } else{
+        console.log('灵感不存在,创建灵感')
+        result = await Inspiration.createIns(insData);
+    }
+
+    // 先删掉 insTag，再逐一建立
+    await InsTag.deleteInsTagByInsId(insData.insId)
     // 将 标签-灵感的关联 存入 instag
-    await Promise.all(insData.insTags.map(t =>
-        InsTag.createInsTag({ insId: insData.insId, tagId: t.tagId }
-        )));
+    await Promise.all(insData.insTags.map(t => {
+        InsTag.createInsTag({ insId: insData.insId, tagId: t.tagId });
+    }));
 
     return result;
 }

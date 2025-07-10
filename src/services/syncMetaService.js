@@ -3,7 +3,7 @@
  * @type {{}}
  */
 
-const generateHash = require('../utils/hash');
+const { generateHash } = require('../utils/hash');
 
 const syncMeta = require('../models/SyncMeta');
 const User = require('../models/User');

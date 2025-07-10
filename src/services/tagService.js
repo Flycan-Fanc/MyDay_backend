@@ -20,7 +20,14 @@ exports.createTag = async (tagData) => {
     const isDelete = await User.isDeleteById(tagData.userId);
     if(isDelete === 1) throw new Error('用户已注销');
 
-    return await Tag.createTag(tagData);
+    const existingTag = await Tag.getTagById(tagData.tagId);
+    if(existingTag) {
+        console.log('标签已存在,更新标签');
+        return await Tag.updateTag(tagData);
+    } else{
+        console.log('标签不存在,创建标签');
+        return await Tag.createTag(tagData);
+    }
 }
 
 /**

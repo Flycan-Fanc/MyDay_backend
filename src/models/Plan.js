@@ -18,8 +18,8 @@ class Plan {
      * @param endTime
      * @returns {Promise<{isTop, planContent, planId: string, startTime, endTime, userId, isDone}>}
      */
-    static async createPlan({userId, planContent, isDone, isTop, startTime, endTime}){
-        const planId = nanoid();
+    static async createPlan({planId, userId, planContent, isDone, isTop, startTime = null, endTime = null}){
+        endTime = endTime === '' ? null : endTime;
         const [plan] = await pool.execute(
             'INSERT INTO plan (planId, userId, planContent, isDone, isTop, startTime, endTime) VALUES (?, ?, ?, ?, ?, ?, ?)',
             [planId, userId, planContent, isDone, isTop, startTime, endTime]
@@ -63,7 +63,8 @@ class Plan {
      * @param endTime
      * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}
      */
-    static async updatePlan({planId, planContent, isDone, isTop, startTime, endTime}){
+    static async updatePlan({planId, planContent, isDone, isTop, startTime = null , endTime = null }){
+        endTime = endTime === '' ? null : endTime;
         const [plan] = await pool.execute(
             'UPDATE plan SET planContent = ?, isDone = ?, isTop = ?, startTime = ?, endTime = ? WHERE planId = ?',
             [planContent, isDone, isTop, startTime, endTime, planId]

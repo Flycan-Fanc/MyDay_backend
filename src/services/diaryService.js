@@ -5,6 +5,7 @@
 
 const Diary = require('../models/Diary');
 const User = require('../models/User');
+const Plan = require("../models/Plan");
 
 /**
  * 创建日记
@@ -20,7 +21,14 @@ exports.createDiary = async (diaryData) => {
     const isDelete = await User.isDeleteById(diaryData.userId);
     if(isDelete === 1) throw new Error('用户已注销');
 
-    return await Diary.createDiary(diaryData);
+    let existingDiary = await Diary.getDiaryById(diaryData.diaryId)
+    if(existingDiary) {
+        console.log('日记已存在,更新日记')
+        return await Diary.updateDiary(diaryData);
+    } else{
+        console.log('日记不存在,创建日记')
+        return await Diary.createDiary(diaryData);
+    }
 }
 
 /**

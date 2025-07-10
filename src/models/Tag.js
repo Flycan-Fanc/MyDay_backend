@@ -15,8 +15,7 @@ class Tag {
      * @param color
      * @returns {Promise<{color, tagId: string, tagName, userId}>}
      */
-    static async createTag({userId, tagName, color}){
-        const tagId = nanoid();
+    static async createTag({tagId, userId, tagName, color}){
         const [tag] = await pool.execute(
             'INSERT INTO tag (tagId, userId, tagName, color) VALUES (?, ?, ?, ?)',
             [tagId, userId, tagName, color]
@@ -32,7 +31,7 @@ class Tag {
     static async getTagById(tagId){
         const [tag] = await pool.execute(
             'SELECT * FROM tag WHERE tagId = ?',
-            [tagId]
+            [tagId.trim()]
         )
         return tag[0]
     }

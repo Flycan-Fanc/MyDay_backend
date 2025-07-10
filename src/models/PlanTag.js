@@ -24,6 +24,21 @@ class PlanTag {
     }
 
     /**
+     * 更新 计划-标签 关联项
+     * @param id
+     * @param planId
+     * @param tagId
+     * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}
+     */
+    static async updatePlanTag({id, planId, tagId}){
+        const [result] = await pool.execute(
+            'UPDATE plantag SET planId = ?, tagId = ? WHERE id = ?',
+            [id, planId, tagId]
+        );
+        return result;
+    }
+
+    /**
      * 根据 计划id获取 计划标签关联项 列表
      * @param planId
      * @returns {Promise<OkPacket|ResultSetHeader|ResultSetHeader[]|RowDataPacket[]|RowDataPacket[][]|OkPacket[]|[RowDataPacket[], ResultSetHeader]>}

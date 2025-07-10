@@ -16,8 +16,7 @@ class Diary {
      * @param diaryDate
      * @returns {Promise<{diaryTitle, diaryDate, diaryId: string, diaryContent, userId}>}
      */
-    static async createDiary({userId, diaryTitle, diaryContent, diaryDate}){
-        const diaryId = nanoid();
+    static async createDiary({diaryId, userId, diaryTitle, diaryContent, diaryDate}){
         const [diary] = await pool.execute(
             'INSERT INTO diary (diaryId, userId, diaryTitle, diaryContent, diaryDate) VALUES (?, ?, ?, ?, ?)',
             [diaryId, userId, diaryTitle, diaryContent, diaryDate]

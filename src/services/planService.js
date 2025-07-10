@@ -22,12 +22,22 @@ exports.createPlan = async (planData) => {
     const isDelete = await User.isDeleteById(planData.userId);
     if(isDelete === 1) throw new Error('用户已注销');
 
-    let result = await Plan.createPlan(planData);
+    let result = {};
+    let existingPlan = await Plan.getPlanById(planData.planId);
+    if(existingPlan) {
+        console.log('计划已存在,更新计划')
+        result = await Plan.updatePlan(planData);
+    } else{
+        console.log('计划不存在,创建计划')
+        result = await Plan.createPlan(planData);
+    }
 
-    // 将 标签-计划的关联 存入 plantag
-    await Promise.all(planData.planTags.map(p =>
-        PlanTag.createPlanTag({ planId: planData.planId, tagId: p.tagId }
-    )));
+    // 先删掉 planTag，再逐一建立
+    await PlanTag.deletePlanTagByPlanId(planData.planId)
+    // 将 标签-计划的关联 存入 plantag，或者更新它
+    await Promise.all(planData.planTags.map(p => {
+        PlanTag.createPlanTag({ planId: planData.planId, tagId: p.tagId })
+    }));
 
     return result;
 }

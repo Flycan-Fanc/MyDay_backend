@@ -16,8 +16,7 @@ class Inspiration {
      * @param insDate
      * @returns {Promise<{insId: string, insDate, insContent, userId, insTitle}>}
      */
-    static async createIns({userId, insTitle, insContent, insDate}){
-        const insId = nanoid();
+    static async createIns({insId, userId, insTitle, insContent, insDate}){
         const [ins] = await pool.execute(
             'INSERT INTO inspiration (insId, userId, insTitle, insContent, insDate) VALUES (?, ?, ?, ?, ?)',
             [insId, userId, insTitle, insContent, insDate]
