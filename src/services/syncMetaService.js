@@ -41,6 +41,11 @@ const getSyncMeta = async (userId) => {
     const isDelete = await User.isDeleteById(userId);
     if(isDelete === 1) throw new Error('用户已注销');
 
+    let userSyncMeta = await syncMeta.getSyncMeta(userId);
+    if(userSyncMeta === null) {
+        console.log('该用户的同步元数据不存在,创建用户同步元');
+        await syncMeta.addSyncMeta({userId, dataVersion: 1, dataHash: generateHash({userId, dataVersion: 1})});
+    }
     return await syncMeta.getSyncMeta(userId);
 }
 exports.getSyncMeta = getSyncMeta;
@@ -61,7 +66,8 @@ exports.updateSyncMeta = async (userId) => {
 
     const existingSyncMeta = await syncMeta.getSyncMeta(userId)
     if(!existingSyncMeta) {
-        throw new Error('该用户的同步元数据不存在');
+        console.log('该用户的同步元数据不存在,创建用户同步元');
+        await syncMeta.addSyncMeta({userId, dataVersion: 1, dataHash: generateHash({userId, dataVersion: 1})});
     }
 
     let dataVersion = existingSyncMeta.dataVersion + 1;

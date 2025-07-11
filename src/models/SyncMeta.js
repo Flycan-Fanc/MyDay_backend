@@ -17,10 +17,10 @@ class SyncMeta {
      */
     static async addSyncMeta({ userId, dataVersion, dataHash }) {
         const [syncMeta] = await pool.execute(
-            'INSERT INTO `sync_meta` (`user_id`, `data_version`, `data_hash`) VALUES (?, ?, ?)',
+            'INSERT INTO `sync_meta` (`userId`, `data_version`, `data_hash`) VALUES (?, ?, ?)',
             [userId, dataVersion, dataHash]
         )
-        return syncMeta[0]
+        return { userId, dataVersion, dataHash }
     }
 
     /**
@@ -30,10 +30,10 @@ class SyncMeta {
      */
     static async getSyncMeta(userId) {
         const [syncMeta] = await pool.execute(
-            'SELECT * FROM `sync_meta` WHERE `user_id` = ?',
+            'SELECT * FROM `sync_meta` WHERE `userId` = ?',
             [userId]
         )
-        return syncMeta[0]
+        return syncMeta[0] || null
     }
 
     /**
@@ -45,7 +45,7 @@ class SyncMeta {
      */
     static async updateSyncMeta({ userId, dataVersion, dataHash }) {
         const [syncMeta] = await pool.execute(
-            'UPDATE `sync_meta` SET `data_version` = ?, `data_hash` = ? WHERE `user_id` = ?',
+            'UPDATE `sync_meta` SET `data_version` = ?, `data_hash` = ? WHERE `userId` = ?',
             [dataVersion, dataHash, userId]
         )
         return syncMeta[0]
@@ -58,7 +58,7 @@ class SyncMeta {
      */
     static async deleteSyncMeta(userId) {
         const [syncMeta] = await pool.execute(
-            'DELETE FROM `sync_meta` WHERE `user_id` = ?',
+            'DELETE FROM `sync_meta` WHERE `userId` = ?',
             [userId]
         )
         return syncMeta[0]
