@@ -70,7 +70,7 @@ exports.updateSyncMeta = async (userId) => {
         await syncMeta.addSyncMeta({userId, dataVersion: 1, dataHash: generateHash({userId, dataVersion: 1})});
     }
 
-    let dataVersion = existingSyncMeta.dataVersion + 1;
+    let dataVersion = existingSyncMeta.data_version + 1;  //这里要用下划线形式，和数据库一致
     let dataHash = generateHash({userId, dataVersion});
 
     return await syncMeta.updateSyncMeta({userId, dataVersion, dataHash});
